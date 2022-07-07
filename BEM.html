@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./BEM.css">
+</head>
+<body>
+    <div>
+        <button  class="std std__success disable"> GO TO THE NEXT APPROVAL</button>
+        <button onclick="showSuccess();" class="std std__warn">OK</button>
+        <button onclick="showError();" class="std std__danger">TRY AGAIN</button> 
+    </div>
+<br>
+<div id="toat">
+<div class=" toat toat__info">
+    <div class="toat__icon">
+        <i class="fas fas fa-info-circle"></i>
+    </div>
+    <div class="toat__main">
+        <h class="toat__title">TEST WEB</h>
+        <p class="toat__text"></p>
+    </div>
+    <div class="toat__close">
+        <i class="fas fa-times-circle"></i>
+    </div>   
+</div>
+</div>
+
+
+</body>
+<script >
+    //toat function
+function toat({
+    title = ' ',
+    message= ' ',
+    type = ' info ',
+    duration = 5000
+}) {
+    const main = document.getElementById('toat');
+   
+    if(main){
+        const toat = document.createElement('div')
+         //auto
+    var auto = setTimeout(function(){
+            main.removeChild(toat);
+        },5000)
+
+        //change
+        toat.onclick = function(e){
+            if(e.target.closest('.toat__close')){
+            main.removeChild(toat);
+            clearTimeout(auto);
+            }
+        }
+        const icons = {
+            suc: 'fas fa-check-circle',
+            info: 'fas fa-info-circle',
+            war: 'fas fa-exclamation-circle',
+            
+
+        };
+        const icon = icons[type];
+        toat.classList.add('toat', `toat__${type}`);
+        toat.innerHTML = `
+        <div class="toat__icon">
+        <i class="${icon}"></i>
+    </div>
+    <div class="toat__main">
+        <h class="toat__title">${title}</h>
+        <p class="toat__text">${message}</p>
+    </div>
+    <div class="toat__close">
+        <i class="fas fa-times-circle"></i>
+    </div>   
+        `;
+        main.appendChild(toat);
+        
+    }
+}
+function showSuccess(){
+    
+
+toat({
+    title : 'SUCCESS!',
+    message: 'Bạn đã đăng nhập thành công ',
+    type : 'suc',
+    duration : 5000
+});
+}
+
+function showError(){
+    
+
+    toat({
+        title : 'ERROR!',
+        message: 'Opps ! Truy cập không thành công ',
+        type : 'war',
+        duration : 5000
+    });
+    }
+
+</script>
+</html>
